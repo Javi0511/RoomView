@@ -1,0 +1,61 @@
+@font-face {
+	font-family:titulo;
+    src:url(fuentes/titulo.ttf);
+}
+/*----- CABECERA -----*/
+
+.navbar {
+  box-shadow:  0px 9px 10px  rgb(2, 15, 49);
+  background: rgb(255, 255, 255);
+  
+  
+}
+
+.navbar .nav-item .nav-link {
+  color: #fff;
+}
+
+/*----- CONTENIDO -----*/
+
+.main-header {
+  position: relative;
+  background: url(../img/fondo.jpg);
+  background-size: cover;
+  min-height:200px;
+  top: 9px;
+}
+
+.background-overlay {
+  background: rgba(41, 82, 143, 0.6);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+}
+
+#login{
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+  background: #fff;
+  padding: 30px;
+  width: 90%;
+  max-width: 450px;
+  position: relative;
+  padding: 0px;
+  box-shadow: 9px 9px 5px  rgba(255, 255, 255, 0.5);
+  text-align: center;
+}
+
+#text{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+}
+
+body{
+	background:white;
+}
+
