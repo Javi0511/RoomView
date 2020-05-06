@@ -37,22 +37,17 @@ function ctlInicio(){
 }
 
 
-function ctlVerReserva(){
-    
+function ctlVerReserva(){    
     modeloDB::recoverData();
-    $salas=modeloDB::getRoom();
-  
-    include_once 'App/plantilla/reservaEmpleado.php';
-    
+    $salas=modeloDB::getRoom();  
+    include_once 'App/plantilla/reservaEmpleado.php';    
 }
 
-function ctlAgregar(){
-        
+function ctlAgregar(){        
         $n_sala= $_POST['salas'];
         $evento =$_SESSION['evento'];
             if(modeloDB::saveEvent($evento,$_SESSION['user'],$n_sala)){
-                modeloDB::recoverData();
-                
+                modeloDB::recoverData();                
                 header('Location:index.php?orden=VerReserva');
                
                 
