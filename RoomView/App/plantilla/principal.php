@@ -29,8 +29,8 @@
     <body>
         <!-- CABECERA -->
         <nav class="navbar navbar-expand-lg">
-            <div class="container">
-                <img src="Web/img/logo.png" style="width: 20%" alt="logo bootstrap">
+            <div class="container-fluid">
+                <img src="Web/img/logo.png" style="width: 15%" alt="logo bootstrap">
             </div>
             </div>
         </nav>

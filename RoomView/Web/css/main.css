@@ -55,7 +55,12 @@
 
 }
 
-body{
-	background:white;
+th{
+  background-color:rgba(0, 48, 124, 0.424);
 }
+#cabecera{
+  background: linear-gradient(top, rgb(0, 38, 207), rgba(0, 162, 255, 0.507));
+
+}
+
 

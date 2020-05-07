@@ -13,12 +13,13 @@ function ctlInicio(){
     $msg = "";
     $user ="";
     $password ="";
+    $disabled="";
     if ( $_SERVER['REQUEST_METHOD'] == "POST"){
         if (isset($_POST['user']) && isset($_POST['password'])){
             $user =$_POST['user'];
             $password=$_POST['password'];
             if ( modeloDB::OkUser($user,$password)){
-               
+
                 $_SESSION['user'] = $user;
                 header('Location:index.php?orden=VerReserva');
                 }
@@ -40,6 +41,7 @@ function ctlInicio(){
 function ctlVerReserva(){    
     modeloDB::recoverData();
     $salas=modeloDB::getRoom();  
+
     include_once 'App/plantilla/reservaEmpleado.php';    
 }
 
@@ -47,7 +49,9 @@ function ctlAgregar(){
         $n_sala= $_POST['salas'];
         $evento =$_SESSION['evento'];
             if(modeloDB::saveEvent($evento,$_SESSION['user'],$n_sala)){
-                modeloDB::recoverData();                
+                modeloDB::recoverData(); 
+                $msg="";
+                
                 header('Location:index.php?orden=VerReserva');
                
                 
@@ -63,7 +67,8 @@ function ctlElegirSala(){
     $descripcion = "";
     $color = "";
     $user="";
-    
+    $disabled="";
+
     
     if (isset($_POST['txtFecha']) && isset($_POST['txtTitulo']) && isset($_POST['txtHora'])) {
         
@@ -87,6 +92,7 @@ function ctlElegirSala(){
         $salas= modeloDB::availableRoom( $_POST['txtFecha'],$_POST['txtHora']);
         
         $_SESSION['evento']=$evento;
+        $msg="Selecciona una sala para completar su reserva.";
         include_once 'App/plantilla/reservaEmpleado.php';
         
         

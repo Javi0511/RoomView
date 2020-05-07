@@ -63,32 +63,41 @@
 						$("#ModalReserva").modal();
 					}
 				});
+
+				
 			});
+
+			
 		</script>
 	</head>
 	<body>
 		<!-- CABECERA -->
-		<nav class="navbar">
+		
+		<nav class="navbar" id="cabecera">
 		<div class="container-fluid">
-			<img src="Web/img/logo.png" style="width: 20%" alt="logo bootstrap">
+			<img src="Web/img/logo.png" style="width: 15%" alt="logo bootstrap">
 			<a href="<?= $auto?>?orden=Cerrar"><img src="Web/img/logout.png"></a> 
 		</div>
 		</nav>
 
 		<!-- CONTENIDO-->
-		<div id="contenido" class="container-fluid pt-5">
-			<div class="row ">
-				<div id="calendar" class="col-md-7 "></div>
-				<div class="col-md-4 ml-5">
-					<div><h2>SALAS DE REUNIÓN</h2></div>
+		
+		<div id="contenido" class=" container-fluid pt-5">
+			
+			<div class="row p-4">
+				<div id="calendar" class="col-md-7 bg-white p-3 border border-secondary rounded"></div>
+				<div class="col-md-4 ml-5 pt-3">
+					<div id="subtitle"><h2><?= (isset($msg))?$msg:"SALAS DE REUNION" ?></h2></div>
+				
 					<form  method="post" action="index.php?orden=Agregar">
-						<table id='tsalas' class="table"> 
-							<thead class="thead-dark"><tr><th >Sala</th><th>Material</th></tr></thead>
+					
+						<table id='tsalas' class="table bg-white justify-content-center"> 
+							<thead><tr><th >Sala</th><th>Material</th></tr></thead>
 							<tody>
 								<?php  foreach ($salas as $clave => $datosalas) : ?>
 								<tr>	
 									<td  id='sala'>
-										Sala <?= $clave?>&nbsp&nbsp<input type="radio" name="salas" value="<?= $clave ?>">
+										Sala <?= $clave?>&nbsp&nbsp<input type="radio" name="salas" value="<?= $clave ?>"<?= (isset($disabled))?$disabled:"disabled" ?>>
 									</td> 
 									<?php for ($j=1; $j < count($datosalas); $j++) :?>
 										<td id='tipo'>
@@ -100,8 +109,9 @@
 								<?php endforeach; ?>
 							</tbody>
 						</table>
-
-						<input  type="submit" name="orden" value="Confirmar"   class="btn btn-success">
+				
+						<input  type="submit" name="orden" value="Confirmar"  class="btn btn-primary m-1" <?= (isset($disabled))?$disabled:"disabled" ?>>
+					
 					</form>
 				</div>
 			</div>
@@ -149,9 +159,9 @@
 							<!-- Pie del modal -->
 							<div class="modal-footer">
 								<input  type="submit" name="orden" value="Elegir Sala" id="ElegirSala"  class="btn btn-success">
-								<input type="submit" name="orden" value="Modificar" class="btn btn-success" data-dismiss="modal">
-								<input type="submit" name="orden" value="Borrar" class="btn btn-danger" data-dismiss="modal">
-								<button type="button" class="btn btn-default">Cancelar</button>
+								<input type="submit" id="modificar" name="orden" value="Modificar" class="btn btn-success" data-dismiss="modal">
+								<input type="submit" id="borrar" name="orden" value="Borrar" class="btn btn-danger" data-dismiss="modal">
+								<button type="button" id="cancelar" class="btn btn-default">Cancelar</button>
 							</div>
 						</form>
 					</div>
@@ -160,24 +170,29 @@
 		</div>
 		<script>
 			var NuevoEvento;
-			$('#agregar').click(function(){
-				capturarDatos();
-				$('#calendar').fullCalendar('renderEvent',NuevoEvento);
+
+
+			
+			
+			$('#cancelar').click(function(){
+			
 				$("#ModalReserva").modal('toggle');
 			});
 
-			function capturarDatos(){
-				NuevoEvento = {
-					id:$('#txtID').val(),
-					title:$('#txtTitulo').val(),
-					start:$('#txtFecha').val()+" "+$('#txtHora').val(),
-					color:$('#txtColor').val(),
-					descripcion:$('#txtDescripcion').val(),
-					textColor:"#ffffff"
-				};
-			}
+			$('#borrar').click(function(){
+				
+				alert("Para poder borrar debes ser administrador");
+			});
 
+			$('#modificar').click(function(){
+				
+				alert("Para poder modificar debes ser administrador");
+			});
+			
 			$('.clockpicker').clockpicker();
+
+
+			
 		</script>
 	</body>
 </html>
