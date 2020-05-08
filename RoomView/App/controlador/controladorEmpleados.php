@@ -19,8 +19,9 @@ function ctlInicio(){
             $user =$_POST['user'];
             $password=$_POST['password'];
             if ( modeloDB::OkUser($user,$password)){
-
                 $_SESSION['user'] = $user;
+                $_SESSION['tipo']=modeloDB::GetTipoEmpleado($user, $password);
+            
                 header('Location:index.php?orden=VerReserva');
                 }
                
@@ -38,11 +39,16 @@ function ctlInicio(){
 }
 
 
-function ctlVerReserva(){    
+function ctlVerReserva(){
     modeloDB::recoverData();
-    $salas=modeloDB::getRoom();  
-
-    include_once 'App/plantilla/reservaEmpleado.php';    
+    $salas=modeloDB::GetRoom();
+    if($_SESSION['tipo']=="ADMIN"){
+        include_once 'App/plantilla/reservaAdmin.php'; 
+    }else{
+        include_once 'App/plantilla/reservaEmpleado.php'; 
+    }
+  
+       
 }
 
 function ctlAgregar(){        
@@ -101,6 +107,59 @@ function ctlElegirSala(){
         header('Location:index.php?orden=VerReserva');
     }
     
+}
+
+function ctlModificar(){
+    echo "holacaracola";
+    $msg = "";
+    $id="";
+    $fecha = "";
+    $titulo = "";
+    $hora = "";
+    $descripcion = "";
+    $color = "";
+    $user="";
+    $disabled="";
+    
+    if (isset($_POST['txtID']) && isset($_POST['txtFecha']) && isset($_POST['txtTitulo']) && isset($_POST['txtHora'])) {        
+        $id=$_POST['txtID'];
+        $titulo = $_POST['txtTitulo'];
+        $start = $_POST['txtFecha']." ".$_POST['txtHora'];
+        $descripcion = $_POST['txtDescripcion'];
+        $color = $_POST['txtColor'];
+        $hora=$_POST['txtHora'];
+        $dia=$_POST['txtFecha'];
+        $sala_no=$_POST['txtSala'];
+        $user=$_SESSION['user'];
+
+        $evento = [
+            $id,
+            $titulo,
+            $descripcion,
+            $color,
+            $start,
+            $sala_no,
+            $user,
+            $hora,
+            $dia             
+        ];
+        var_dump($titulo);
+        if(modeloDB::checkRoom($dia, $hora)){
+            modeloDB::updateReserva($evento);
+            modeloDB::recoverData(); 
+            
+            //include_once 'App/plantilla/reservaAdmin.php';
+        }else{
+            $msg="La sala esta ocupada a esa hora";
+        }
+        
+        
+        
+        
+        
+    } else {
+        header('Location:index.php?orden=VerReserva');
+    }
 }
 //--------Cierra la sesi�n--------
 function ctlCerrar(){

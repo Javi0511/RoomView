@@ -6,11 +6,13 @@ include_once 'App/config.php';
 class modeloDB {
     
     private static $dbh = null;
-    private static $select_user = "Select * from empleados where EMP_NO = ? and CLAVE = ?";
-    private static $select_reservas = "Select * from reserva";
+    private static $select_user = "SELECT * from empleados where EMP_NO = ? and CLAVE = ?";
+    private static $select_reservas = "SELECT * from reserva";
     private static $insert_event = "INSERT INTO reserva (title,descripcion,color,start,sala_no,emp_no,hora,dia) VALUES (?,?,?,?,?,?,?,?)";  
-    private static $select_salas = "Select * from salas";
+    private static $select_salas = "SELECT * from salas";
     private static $update_salas = "SELECT * FROM salas WHERE sala_no not in (select sala_no from reserva where dia = ? AND hora=?)";
+    private static $check_salas = "SELECT * FROM reserva WHERE sala_no = ? and dia = ? and hora = ?)";
+    private static $update_event= "UPDATE reserva set title=?, descripcion=?, color=?, start=?, sala_no=?, emp_no=?, hora=?, dia=? WHERE id=?";
     public static function init(){
         
         if (self::$dbh == null){
@@ -41,6 +43,20 @@ class modeloDB {
         }
         return $solucion;
     }
+    //-------FUNCION PARA VALIDAR USUARIO ADMINISTRADOR -------
+    public static function GetTipoEmpleado($user,$password){
+        $stmt = self::$dbh->prepare(self::$select_user);
+        $stmt->bindValue(1,$user);
+        $stmt->bindValue(2,$password);
+        $stmt->execute();
+        if ($stmt->rowCount() > 0 ){
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $fila = $stmt->fetch();
+            $tipo=$fila['TIPO_EMP'];
+        }
+        return $tipo;
+    }
+
   
     
     //-------FUNCION PARA VOLCAR DATOS en el calendario -------
@@ -60,7 +76,7 @@ class modeloDB {
         return $file;
     }
     
-    public static function getRoom(){
+    public static function GetRoom(){
         
         $stmt = self::$dbh->prepare(self::$select_salas);
         $stmt->execute();
@@ -109,6 +125,37 @@ class modeloDB {
         $stmt->bindValue(7,$evento[4]);
         $stmt->bindValue(8,$evento[5]);
 
+        if ($stmt->execute()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public static function checkRoom($dia,$hora){
+        $solucion=true;
+        $stmt = self::$dbh->prepare(self::$check_salas);
+        $stmt->bindValue(1,$dia);
+        $stmt->bindValue(2,$hora);
+        $stmt->execute();
+        if ($stmt->rowCount() > 0 ){
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $fila = $stmt->fetch();
+            $solucion =false;
+        }
+        return $solucion;
+        
+    }
+    public static function updateReserva($evento){        
+        $stmt = self::$dbh->prepare(self::$update_event);
+        $stmt->bindValue(1,$evento[1]);
+        $stmt->bindValue(2,$evento[2]);
+        $stmt->bindValue(3,$evento[3]);
+        $stmt->bindValue(4,$evento[4]);
+        $stmt->bindValue(5,$evento[5]);
+        $stmt->bindValue(6,$evento[6]);
+        $stmt->bindValue(7,$evento[7]);
+        $stmt->bindValue(8,$evento[8]);
+        $stmt->bindValue(9,$evento[9]);
         if ($stmt->execute()){
             return true;
         }else{
