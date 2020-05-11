@@ -42,8 +42,10 @@ function ctlInicio(){
 function ctlVerReserva(){
     modeloDB::recoverData();
     $salas=modeloDB::GetRoom();
+    
     if($_SESSION['tipo']=="ADMIN"){
         include_once 'App/plantilla/reservaAdmin.php'; 
+     
     }else{
         include_once 'App/plantilla/reservaEmpleado.php'; 
     }
@@ -55,7 +57,7 @@ function ctlAgregar(){
         $n_sala= $_POST['salas'];
         $evento =$_SESSION['evento'];
             if(modeloDB::saveEvent($evento,$_SESSION['user'],$n_sala)){
-                modeloDB::recoverData(); 
+               
                 $msg="";
                 
                 header('Location:index.php?orden=VerReserva');
@@ -110,7 +112,7 @@ function ctlElegirSala(){
 }
 
 function ctlModificar(){
-    echo "holacaracola";
+   
     $msg = "";
     $id="";
     $fecha = "";
@@ -143,14 +145,15 @@ function ctlModificar(){
             $hora,
             $dia             
         ];
-        var_dump($titulo);
-        if(modeloDB::checkRoom($dia, $hora)){
+       
+        if(modeloDB::checkRoom($dia, $hora,$sala_no)){
             modeloDB::updateReserva($evento);
-            modeloDB::recoverData(); 
+       
             
-            //include_once 'App/plantilla/reservaAdmin.php';
+            header('Location:index.php?orden=VerReserva');
         }else{
             $msg="La sala esta ocupada a esa hora";
+            //Hacer que aparezca el error solo en el que modificas
         }
         
         
@@ -158,8 +161,21 @@ function ctlModificar(){
         
         
     } else {
+       
         header('Location:index.php?orden=VerReserva');
+        
     }
+}
+
+function ctlBorrar(){
+    if (isset($_GET['id'])){
+        $id= $_GET['id'];
+        
+        if( modeloDB::reservaDel($id)){
+            header('Location:index.php?orden=VerReserva');
+        }
+    }
+    
 }
 //--------Cierra la sesi�n--------
 function ctlCerrar(){

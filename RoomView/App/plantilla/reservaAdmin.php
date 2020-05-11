@@ -55,6 +55,7 @@
 						$('#txtID').val(calEvent.id);
 						$('#txtTitulo').val(calEvent.title);
 						$('#txtColor').val(calEvent.color);
+						$('#txtSala').val(calEvent.sala_no);
 
 						//Convierte el elemento en fecha y hora
 						FechaHora= calEvent.start._i.split(" ");
@@ -101,47 +102,48 @@
 						</div>
 						<form  method="post" action="index.php?orden=Modificar">
 							<div class="modal-body">
-                            <div class="form-row">
+                                <div class="form-row">
                                 <label>Id: </label>
-								<input type="text" id="txtID" name="txtID">
+                                <input type="text" id="txtID" name="txtID">
                                 <label>Fecha: </label>
-								<input class="form-control" type="text" id="txtFecha" name="txtFecha">
-                            </div>
-								<div class="form-row">
-									<div class="form-group col-md-8">
-										<label>Titulo: </label>
-										<input class="form-control" type="text" id="txtTitulo" name="txtTitulo">
-									</div>
-
-									<div class="form-group col-md-4">
-										<label>Hora: </label>
-										<div class="input-group clockpicker" data-autoclose="true">
-											<input class="form-control" type="text" id="txtHora" name="txtHora">
-										</div>
-									</div>
-								</div>
+                                <input class="form-control" type="text" id="txtFecha" name="txtFecha">
+                                </div>
+                                <div class="form-row">
+                                <div class="form-group col-md-8">
+                                <label>Titulo: </label>
+                                <input class="form-control" type="text" id="txtTitulo" name="txtTitulo">
+                                </div>
+                                
+                                <div class="form-group col-md-4">
+                                <label>Hora: </label>
+                                <div class="input-group clockpicker" data-autoclose="true">
+                                <input class="form-control" type="text" id="txtHora" name="txtHora">
+                                </div>
+                                </div>
+                                </div>
                                 <div class="form-group">
-									<label>Salas:</label>
-                                    <select name="txtSala">                                    
-									<?php  foreach ($salas as $clave => $datosalas) : ?>
-                                        <option value="<?= $clave?>">Sala <?= $clave?></option>																
-									<?php endforeach; ?>
-                                    </select>
-								</div>
-								<div class="form-group">
-									<label>Descripcion:</label>
-									<textarea class="form-control" id="txtDescripcion" name="txtDescripcion" rows="3"></textarea>
-								</div>
-
-								<div class="form-group">
-									<label>Color:</label>
-									<input class="form-control" style="height:30px;" type="color" id="txtColor" name="txtColor">
-								</div>
-
-							</div>
+                                <label>Salas:</label>
+                                <select id="txtSala" name="txtSala">
+                                <?php foreach ($salas as $clave => $datosalas) : ?>
+                                <option value="<?= $clave?>">Sala <?= $clave?></option>
+                                <?php endforeach; ?>
+                                </select>
+                                </div>
+                                <div class="form-group">
+                                <label>Descripcion:</label>
+                                <textarea class="form-control" id="txtDescripcion" name="txtDescripcion" rows="3"></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                <label>Color:</label>
+                                <input class="form-control" style="height:30px;" type="color" id="txtColor" name="txtColor">
+                                </div>
+                                
+                                </div>
 							<!-- Pie del modal -->
 							<div class="modal-footer">
-								<input type="submit" id="modificar" name="orden" value="Confirmar" class="btn btn-success" data-dismiss="modal">
+								<input  type="submit" name="orden" value="Modificar" class="btn btn-success">
+								
 								<input type="submit" id="borrar" name="orden" value="Borrar" class="btn btn-danger" data-dismiss="modal">
 								<button type="button" id="cancelar" class="btn btn-default">Cancelar</button>
 							</div>
@@ -153,14 +155,19 @@
 		<script>
 			var NuevoEvento;
 
+			
 			$('#cancelar').click(function(){
 			
 				$("#ModalReserva").modal('toggle');
 			});
 
 			$('#borrar').click(function(){
-				
-				alert("Para poder borrar debes ser administrador");
+				var id = document.getElementById('txtID');
+		
+				 if(confirm("¿Quieres eliminar el archivo:  "+id.value)){
+					 document.location.href="?orden=Borrar&id="+id.value;
+				 }
+				 
 			});
 
 				

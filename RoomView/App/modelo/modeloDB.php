@@ -11,8 +11,9 @@ class modeloDB {
     private static $insert_event = "INSERT INTO reserva (title,descripcion,color,start,sala_no,emp_no,hora,dia) VALUES (?,?,?,?,?,?,?,?)";  
     private static $select_salas = "SELECT * from salas";
     private static $update_salas = "SELECT * FROM salas WHERE sala_no not in (select sala_no from reserva where dia = ? AND hora=?)";
-    private static $check_salas = "SELECT * FROM reserva WHERE sala_no = ? and dia = ? and hora = ?)";
+    private static $check_salas = "SELECT * FROM reserva WHERE sala_no = ? and dia = ? and hora = ?";
     private static $update_event= "UPDATE reserva set title=?, descripcion=?, color=?, start=?, sala_no=?, emp_no=?, hora=?, dia=? WHERE id=?";
+    private static $delete_user= "DELETE FROM reserva where id=?";
     public static function init(){
         
         if (self::$dbh == null){
@@ -131,11 +132,12 @@ class modeloDB {
             return false;
         }
     }
-    public static function checkRoom($dia,$hora){
+    public static function checkRoom($dia,$hora,$sala_no){
         $solucion=true;
         $stmt = self::$dbh->prepare(self::$check_salas);
-        $stmt->bindValue(1,$dia);
-        $stmt->bindValue(2,$hora);
+        $stmt->bindValue(1,$sala_no);
+        $stmt->bindValue(2,$dia);
+        $stmt->bindValue(3,$hora);
         $stmt->execute();
         if ($stmt->rowCount() > 0 ){
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -155,10 +157,20 @@ class modeloDB {
         $stmt->bindValue(6,$evento[6]);
         $stmt->bindValue(7,$evento[7]);
         $stmt->bindValue(8,$evento[8]);
-        $stmt->bindValue(9,$evento[9]);
+        $stmt->bindValue(9,$evento[0]);
         if ($stmt->execute()){
             return true;
         }else{
+            return false;
+        }
+    }
+    
+    public static function reservaDel($id){
+        $stmt =self::$dbh->prepare(self::$delete_user);
+        $stmt->bindValue(1,$id);
+        if($stmt->execute()){
+            return true;
+        } else {
             return false;
         }
     }
