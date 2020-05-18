@@ -75,14 +75,21 @@
 		
 		<nav class="navbar" id="cabecera">
 		<div class="container-fluid">
-			<img src="Web/img/logo.png" style="width: 15%" alt="logo bootstrap">
-			<a href="<?= $auto?>?orden=Cerrar"><img src="Web/img/logout.png"></a> 
+			<div class="col-auto mr-auto" >
+				<img src="Web/img/logo.png" style="width: 15%" alt="logo bootstrap">
+			</div>
+			<div class="col-auto" >
+				<a href="<?= $auto?>?orden=Cerrar"><img src="Web/img/logout.png"></a>
+				<b>Usuario:</b> <?=  $_SESSION['user'];?>
+				
+			</div>
 		</div>
+		
 		</nav>
-
+<hr>
 		<!-- CONTENIDO-->
 		
-		<div id="contenido" class=" container-fluid pt-5">
+		<div id="contenido" class=" container-fluid">
 			
 			<div class="row p-4">
 				<div id="calendar" class="col-md-7 bg-white p-3 border border-secondary rounded"></div>
@@ -128,28 +135,27 @@
 						</div>
 						<form  method="post" action="index.php?orden=ElegirSala">
 							<div class="modal-body">
-								<input type="hidden" id="txtID" name="txtID">
-								<input class="form-control" type="text" id="txtFecha" name="txtFecha">
-
 								<div class="form-row">
-									<div class="form-group col-md-8">
-										<label>Titulo: </label>
-										<input class="form-control" type="text" id="txtTitulo" name="txtTitulo">
+									<input type="hidden" id="txtID" name="txtID"  >	
+									<div class="form-group col-md-5">
+										<label>Fecha: </label>
+										<input class="form-control" type="text" id="txtFecha" name="txtFecha" >
 									</div>
-
-									<div class="form-group col-md-4">
+									<div class="form-group col-md-5">
 										<label>Hora: </label>
 										<div class="input-group clockpicker" data-autoclose="true">
 											<input class="form-control" type="text" id="txtHora" name="txtHora">
 										</div>
 									</div>
 								</div>
-
+								<div class="form-group">
+									<label>Titulo: </label>
+									<input class="form-control" type="text" id="txtTitulo" name="txtTitulo">
+								</div>
 								<div class="form-group">
 									<label>Descripcion:</label>
 									<textarea class="form-control" id="txtDescripcion" name="txtDescripcion" rows="3"></textarea>
 								</div>
-
 								<div class="form-group">
 									<label>Color:</label>
 									<input class="form-control" style="height:30px;" type="color" id="txtColor" name="txtColor">
@@ -181,12 +187,12 @@
 
 			$('#borrar').click(function(){
 				
-				alert("Para poder borrar debes ser administrador");
+				alert("Para poder borrar debes ser ADMIN");
 			});
 
 			$('#modificar').click(function(){
 				
-				alert("Para poder modificar debes ser administrador");
+				alert("Para poder modificar debes ser ADMIN");
 			});
 			
 			$('.clockpicker').clockpicker();

@@ -58,7 +58,7 @@
                                     <input type="password" name="password" class="form-control" placeholder="Password">
                                 </div>
                                 <div class="form-check text-muted ">
-                                    <input type="checkbox" class="form-check-input">
+                                    <input name="recordar" type="checkbox" class="form-check-input">
                                     <label class=" form-check-label">Recordar Usuario</label>
                                 </div>
                                 <input type="submit" name="orden" value="Entrar" class="btn btn-primary m-1">

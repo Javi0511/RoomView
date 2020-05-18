@@ -19,9 +19,9 @@ function ctlInicio(){
             $user =$_POST['user'];
             $password=$_POST['password'];
             if ( modeloDB::OkUser($user,$password)){
+                
                 $_SESSION['user'] = $user;
                 $_SESSION['tipo']=modeloDB::GetTipoEmpleado($user, $password);
-            
                 header('Location:index.php?orden=VerReserva');
                 }
                
