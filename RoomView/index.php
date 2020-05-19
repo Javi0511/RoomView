@@ -28,7 +28,7 @@ if (!isset($_SESSION['user'])){
             echo '<html><body><h1>Error 404: No existe la ruta <i>' . $_GET['ctl'] . '</p></body></html>';
             exit;
            
-            // Error no existe funci�n para la ruta
+            // Error no existe funci�n para la rutaa
         }
         
    }else{
